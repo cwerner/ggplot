@@ -192,8 +192,7 @@ def hls_palette(n_colors=6, h=.01, l=.6, s=.65):
     hues += h
     hues %= 1
     hues -= hues.astype(int)
-    palette = [colorsys.hls_to_rgb(h_i, l, s) for h_i in hues]
-    return palette
+    return [colorsys.hls_to_rgb(h_i, l, s) for h_i in hues]
 
 
 def husl_palette(n_colors=6, h=.01, s=.9, l=.65):
@@ -225,8 +224,7 @@ def husl_palette(n_colors=6, h=.01, s=.9, l=.65):
     hues *= 359
     s *= 99
     l *= 99
-    palette = [husl.husl_to_rgb(h_i, s, l) for h_i in hues]
-    return palette
+    return [husl.husl_to_rgb(h_i, s, l) for h_i in hues]
 
 
 def mpl_palette(name, n_colors=6):
@@ -255,8 +253,7 @@ def mpl_palette(name, n_colors=6):
                         "Set1": 9, "Set2": 8, "Set3": 12}
 
     if name.endswith("_d"):
-        pal = ["#333333"]
-        pal.extend(color_palette(name.replace("_d", "_r"), 2))
+        pal = ["#333333", *color_palette(name.replace("_d", "_r"), 2)]
         cmap = blend_palette(pal, n_colors, as_cmap=True)
     else:
         cmap = getattr(mpl.cm, name)
@@ -264,9 +261,7 @@ def mpl_palette(name, n_colors=6):
         bins = np.linspace(0, 1, brewer_qual_pals[name])[:n_colors]
     else:
         bins = np.linspace(0, 1, n_colors + 2)[1:-1]
-    palette = list(map(tuple, cmap(bins)[:, :3]))
-
-    return palette
+    return list(map(tuple, cmap(bins)[:, :3]))
 
 
 def dark_palette(color, n_colors=6, reverse=False, as_cmap=False):

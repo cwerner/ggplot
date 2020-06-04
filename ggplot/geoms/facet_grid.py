@@ -21,19 +21,12 @@ class facet_grid(object):
 
         if x is None and y is None:
             raise GgplotError("No facets provided!")
-        
+
         # only do the deepcopy after the check
         gg = deepcopy(gg)
 
-        if x is None:
-            n_dim_x = 1
-        else:
-            n_dim_x = x.nunique()
-        if y is None:
-            n_dim_y = 1
-        else:
-            n_dim_y = y.nunique()
-        
+        n_dim_x = 1 if x is None else x.nunique()
+        n_dim_y = 1 if y is None else y.nunique()
         n_dim = n_dim_x * n_dim_y
         if self.ncol is None and self.nrow is None:
             n_rows = n_dim_x

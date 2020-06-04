@@ -54,7 +54,7 @@ class SMeta(type):
         try:
             cache = cls._cache
         except:
-            cache = dict()
+            cache = {}
             cls._cache = cache
         try:
             obj = cache[key]
@@ -1274,8 +1274,7 @@ class ColorCAM(ColorModel):
     def _fn(cls, y):
         y1 = y - 0.1
         xp = y1 * 27.13 / (400. - y1)
-        x = xp **(1./0.42) * 100. / cls._FL
-        return x
+        return xp **(1./0.42) * 100. / cls._FL
     @classmethod
     def __call__(cls, *args):
         __doc__ = ColorModel.__call__.__doc__
@@ -1336,8 +1335,7 @@ class ColorCAMInverse(ColorModel):
     @classmethod
     def _f(cls, x):
         xp = (cls._FL * x / 100.)**0.42
-        y = 400.* xp / (27.13 + xp) + 0.1
-        return y
+        return 400.* xp / (27.13 + xp) + 0.1
     @classmethod
     def __call__(cls, *args):
         __doc__ = ColorModel.__call__.__doc__
@@ -1412,7 +1410,7 @@ class ColorsRGBInverse(ColorModel):
 
 # register color models
 
-_color_models = dict()
+_color_models = {}
 def register_color_model(name, model):
     assert isinstance(name, str)
     assert issubclass(type(model), ColorModel)
@@ -1652,7 +1650,7 @@ class Color(colors.Colormap):
         return self._N
     N = property(get_N)    
 
-_colors = dict()
+_colors = {}
 def register_color(name, color):
     assert isinstance(name, str)
     assert isinstance(color, Color)
@@ -1738,11 +1736,8 @@ class ColorMap(Color):
         ncoord = layout.count('X')
         assert ncoord in (0,1,4), "can 0,1, or 4 coordinates"
         ipos = layout.find('X')
-        if ncoord == 0 :    
-            if map.ndim == 1:
-                n = map.size
-            else:
-                n = map.shape[0]
+        if ncoord == 0:    
+            n = map.size if map.ndim == 1 else map.shape[0]
             coord = np.arange(n).reshape((1, ncoord))
             ncoord = 1
         else:
@@ -1764,10 +1759,10 @@ class ColorMap(Color):
         if ipos >= 0:
             alpha = map[:,ipos]
         else:   
-            if alpha == None:
+            if alpha is None:
                 alpha = 1.
             alpha = np.tile(alpha, n)
-        
+
         assert layout.count('N') < 2, "can have only one normalization value"
         ipos = layout.find('N')
         if ipos >= 0:
@@ -1792,12 +1787,12 @@ class ColorMap(Color):
         if ipos >= 0:
             model = map[:,ipos]
         else:   
-            if model == None:
+            if model is None:
                 model = 0
             model = np.tile(model, n)
 
         # models is converted to array of color objects
-        if models == None:
+        if models is None:
             models = ['RGB', 'HSV', 'HSL', 'HSI']
         models = np.array(models).reshape(-1)
         m = np.empty_like(model, dtype = np.object)
@@ -1810,7 +1805,7 @@ class ColorMap(Color):
         nc = layout.count('C')
         assert nc in (1,3), "Color has to be C or CCC"
         if nc == 0:
-            if color == None:
+            if color is None:
                 color = 0.
             if len(color) == 1:
                 color = np.array([mx.gray(color) for mx in model])
@@ -1851,7 +1846,7 @@ class ColorMap(Color):
                 normal[i] = d[m]
             if normal[i]:
                 color[i,:] = m.normalize(color[i,:])
-                
+
         # combine color and alpha
         color = np.hstack((color, alpha.reshape(-1,1)))
 
@@ -1872,12 +1867,12 @@ class ColorMap(Color):
             color = color[:,jj]
             model = model[:,jj]
             coord = coord[:,jj]
-            
+
         # convert to N x 4 array for gamma
         ng = layout.count('G')
         assert nc in (1,3), "Gamma has to be G, GG, GGG, or GGGG"
         if ng == 0:
-            gamma = np.tile(1., (n,4))    
+            gamma = np.tile(1., (n,4))
         if ng == 1:
             ipos = layout.find('G')
             g = map[:,ipos]
@@ -1895,7 +1890,7 @@ class ColorMap(Color):
             for i in xrange(3):
                 ipos = layout.find('G', ipos + 1)
                 gamma[:,i] = map[:,ipos]
-            gamma[:,3] = np.tile(1., n)    
+            gamma[:,3] = np.tile(1., n)
         if ng == 4:
             gamma = np.ndarray((n,4), dtype = map.dtype)
             ipos = -1
@@ -1904,7 +1899,7 @@ class ColorMap(Color):
                 gamma[:,i] = map[:,ipos]        
 
         # translate to functions
-        if gamma_func == None:
+        if gamma_func is None:
             gamma_func = lambda x, gamma: np.power(x, gamma)
         assert isinstance(gamma_func, types.FunctionType), (
             "gamma_func needs to be a function")
@@ -1915,10 +1910,7 @@ class ColorMap(Color):
         identiy = lambda x: x
         for i,f in enumerate(gamma.flat):
             if not isinstance(f, types.FunctionType):
-                if f is None:
-                    g.flat[i] = identity 
-                else:
-                    g.flat[i] = partial(gamma_func, gamma = f)    
+                g.flat[i] = identity if f is None else partial(gamma_func, gamma = f)
         gamma = g
 
         # save setup

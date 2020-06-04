@@ -29,7 +29,7 @@ class stat_bar(stat):
 
     def _calculate_global(self, data):
         labels = self.params['labels']
-        if labels == None:
+        if labels is None:
             labels = sorted(set(data['x'].values))
         # For a lot of labels, put out a warning
         if len(labels) > 30:

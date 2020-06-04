@@ -16,16 +16,15 @@ from ggplot.components import assign_visual_mapping
 from ggplot.utils.exceptions import GgplotError
 
 def get_test_df():
-    df = pd.DataFrame({
-        'xmin': [1, 3, 5],
-        'xmax': [2, 3.5, 7],
-        'ymin': [1, 4, 6],
-        'ymax': [5, 5, 9],
-        'fill': ['blue', 'red', 'green'],
-        'quality': ['good', 'bad', 'ugly'],
-        'alpha': [0.1, 0.5, 0.9],
-        'texture': ['hard', 'soft', 'medium']})
-    return df
+    return pd.DataFrame({
+            'xmin': [1, 3, 5],
+            'xmax': [2, 3.5, 7],
+            'ymin': [1, 4, 6],
+            'ymax': [5, 5, 9],
+            'fill': ['blue', 'red', 'green'],
+            'quality': ['good', 'bad', 'ugly'],
+            'alpha': [0.1, 0.5, 0.9],
+            'texture': ['hard', 'soft', 'medium']})
 
 def test_legend_structure():
     df = get_test_df()

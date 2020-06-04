@@ -16,12 +16,11 @@ import pandas as pd
 
 def _build_line_df():
     np.random.seed(7776)
-    df = pd.DataFrame({'wt': mtcars['wt'][:10],
-                       'mpg': mtcars['mpg'][:10],
-                       'a': np.random.normal(15, size=10),
-                       'b': np.random.normal(0, size=10)
-                       })
-    return df
+    return pd.DataFrame({'wt': mtcars['wt'][:10],
+                           'mpg': mtcars['mpg'][:10],
+                           'a': np.random.normal(15, size=10),
+                           'b': np.random.normal(0, size=10)
+                           })
 
 @cleanup
 def test_geom_abline():

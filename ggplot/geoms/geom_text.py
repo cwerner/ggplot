@@ -42,8 +42,8 @@ class geom_text(geom):
         ymin = ymin - ymargin
 
         # Take current plotting dimension in account for the case that we
-        # work on a special dataframe just for this geom!
-        if not self.data is None:  # NOTE: not working??
+            # work on a special dataframe just for this geom!
+        if self.data is not None:    # NOTE: not working??
             cxmin, cxmax = ax.get_xlim()
             cymin, cymax = ax.get_ylim()
             # there is a problem if geom_text is the first plot, as

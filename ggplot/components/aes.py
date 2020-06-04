@@ -56,10 +56,7 @@ class aes(UserDict):
     DEFAULT_ARGS = ['x', 'y', 'color']
 
     def __init__(self, *args, **kwargs):
-        if args:
-            self.data = dict(zip(self.DEFAULT_ARGS, args))
-        else:
-            self.data = {}
+        self.data = dict(zip(self.DEFAULT_ARGS, args)) if args else {}
         if kwargs:
             self.data.update(kwargs)
         if 'colour' in self.data:

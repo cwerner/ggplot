@@ -35,13 +35,13 @@ class scale_x_date(scale):
         gg = deepcopy(gg)
         if self.name:
             gg.xlab = self.name.title()
-        if not (self.labels is None):
+        if self.labels is not None:
             if isinstance(self.labels, six.string_types):
                 self.labels = date_format(self.labels)
             gg.xtick_formatter = self.labels
-        if not (self.limits is None):
+        if self.limits is not None:
             gg.xlimits = self.limits
-        if not (self.breaks is None):
+        if self.breaks is not None:
             if isinstance(self.breaks, six.string_types):
                 self.breaks = date_breaks(self.breaks)
             gg.xmajor_locator = self.breaks

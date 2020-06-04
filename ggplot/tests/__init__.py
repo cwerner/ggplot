@@ -134,7 +134,10 @@ def get_assert_same_ggplot(test_file):
 
 def assert_same_elements(first,second, msg=None):
     assert_true(len(first) == len(second), "different length")
-    assert_true(all([a==b for a,b in zip(first,second)]), "Unequal: %s vs %s" % (first, second))
+    assert_true(
+        all(a == b for a, b in zip(first, second)),
+        "Unequal: %s vs %s" % (first, second),
+    )
 
 
 def image_comparison(baseline_images=None, tol=17, extensions=None):
@@ -256,8 +259,7 @@ def test(verbosity=1):
         from nose.plugins import multiprocess
 
         # store the old values before overriding
-        plugins = []
-        plugins.append( KnownFailure() )
+        plugins = [KnownFailure()]
         plugins.extend( [plugin() for plugin in nose.plugins.builtin.plugins] )
 
         manager = PluginManager(plugins=plugins)

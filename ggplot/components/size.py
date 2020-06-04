@@ -24,7 +24,7 @@ def assign_sizes(data, aes):
         An entry into the legend dictionary.
         Documented in `components.legend`
     """
-    legend_entry = dict()
+    legend_entry = {}
     # We need to normalize size so that the points aren't really big or
     # really small.
     # TODO: add different types of normalization (log, inverse, etc.)

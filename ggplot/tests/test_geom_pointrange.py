@@ -17,8 +17,7 @@ def _build_testing_df():
     ymin = y - rst.uniform(0, 1, size=10)
     ymax = y + rst.uniform(0, 1, size=10)
 
-    df = pd.DataFrame({'x': x, 'y': y, 'ymin': ymin, 'ymax': ymax})
-    return df
+    return pd.DataFrame({'x': x, 'y': y, 'ymin': ymin, 'ymax': ymax})
 
 
 @cleanup

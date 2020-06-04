@@ -75,10 +75,10 @@ def qplot(x, y=None, color=None, size=None, fill=None, data=None,
     >>> print qplot('mpg', 'drat', data=mtcars, ylab = "y lab", main="ylab")
     """
 
-    if x is not None and not isinstance(x, six.string_types):
+    if not (x is None or isinstance(x, six.string_types)):
         data = pd.DataFrame({"x": x})
         x = 'x'
-    if y is not None and not isinstance(y, six.string_types):
+    if not (y is None or isinstance(y, six.string_types)):
         data['y'] = y
         y = 'y'
 
@@ -104,10 +104,7 @@ def qplot(x, y=None, color=None, size=None, fill=None, data=None,
     }
     # taking our best guess
     if geom=="auto":
-        if y is None:
-            geom = geom_histogram
-        else:
-            geom = geom_point
+        geom = geom_histogram if y is None else geom_point
     else:
         geom = geom_map.get(geom, geom_point)
 

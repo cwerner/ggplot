@@ -128,8 +128,7 @@ def make_title(title):
     title = title.title()
     area = TextArea(" %s " % title, textprops=dict(color="k", fontweight="bold"))
     viz = DrawingArea(20, 10, 0, 0)
-    packed = VPacker(children=[area, viz], align="center", pad=0, sep=0)
-    return packed
+    return VPacker(children=[area, viz], align="center", pad=0, sep=0)
 
 
 
@@ -170,8 +169,7 @@ def make_rect(color, alpha, size = (20,6), height = 20):
 
 def make_label(label, max_length = 20, capitalize = True):
     label_text = str(label).title()[:max_length]
-    label_area = TextArea(label_text, textprops=dict(color="k"))
-    return label_area
+    return TextArea(label_text, textprops=dict(color="k"))
 
 
 def get_legend_labels(legends) :

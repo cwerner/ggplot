@@ -27,10 +27,10 @@ class scale_x_continuous(scale):
         gg = deepcopy(gg)
         if self.name:
             gg.xlab = self.name
-        if not (self.limits is None):
+        if self.limits is not None:
             gg.xlimits = self.limits
-        if not (self.breaks is None):
+        if self.breaks is not None:
             gg.xbreaks = self.breaks
-        if not (self.labels is None):
+        if self.labels is not None:
             gg.xtick_labels = self.labels
         return gg

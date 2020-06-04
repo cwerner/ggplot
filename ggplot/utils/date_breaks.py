@@ -4,10 +4,7 @@ from matplotlib.dates import WeekdayLocator, MonthLocator, YearLocator
 def parse_break_str(txt):
     "parses '10 weeks' into tuple (10, week)."
     txt = txt.strip()
-    if len(txt.split()) == 2:
-        n, units = txt.split()
-    else:
-        n,units = 1, txt
+    n, units = txt.split() if len(txt.split()) == 2 else (1, txt)
     units = units.rstrip('s') # e.g. weeks => week
     n = int(n)
     return n, units
@@ -36,5 +33,4 @@ def date_breaks(width):
     """
     period, units = parse_break_str(width)
     Locator = LOCATORS.get(units)
-    locator = Locator(interval=period)
-    return locator
+    return Locator(interval=period)

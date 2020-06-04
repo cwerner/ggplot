@@ -48,8 +48,7 @@ def color_gen(n_colors, colors=None):
             for color in palettes.hls_palette(n_colors=n_colors):
                 yield rgb2hex(color)
         else:
-            for color in colors:
-                yield color
+            yield from colors
 
 
 def assign_colors(data, aes, gg, aes_name='color'):
@@ -78,7 +77,7 @@ def assign_colors(data, aes, gg, aes_name='color'):
         An entry into the legend dictionary.
         Documented in `components.legend`
     """
-    legend_entry = dict()
+    legend_entry = {}
     if aes_name in aes:
         color_col = aes[aes_name]
         labels, scale_type, indices = get_labels(data, color_col)
@@ -177,10 +176,13 @@ def assign_discrete_colors(data, gg, aes_name, color_col, labels):
         color = color_gen(len(possible_colors), gg.manual_color_list)
     else:
         color = color_gen(len(possible_colors))
-    color_mapping = dict((value, six.next(color)) for value in possible_colors)
+    color_mapping = {value: six.next(color) for value in possible_colors}
     data[_mcolumn] = data[color_col].apply(lambda x: color_mapping[x])
 
-    legend_entry = {'column_name': color_col,
-                    'dict': dict((v, k) for k, v in color_mapping.items()),
-                    'scale_type': 'discrete'}
+    legend_entry = {
+        'column_name': color_col,
+        'dict': {v: k for k, v in color_mapping.items()},
+        'scale_type': 'discrete',
+    }
+
     return data, legend_entry

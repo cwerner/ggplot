@@ -37,14 +37,10 @@ class geom_bar(geom):
         x = pinfo.pop('x')
         width_elem = pinfo.pop('width')
         # If width is unspecified, default is an array of 1's
-        if width_elem == None:
-            width = np.ones(len(x))
-        else :
-            width = np.array(width_elem)
-
+        width = np.ones(len(x)) if width_elem is None else np.array(width_elem)
         # Make sure bottom is initialized and get heights. If we are working on
-        # a new plot (using facet_wrap or grid), then reset bottom
-        _reset = self.bottom == None or (self.ax != None and self.ax != ax)
+            # a new plot (using facet_wrap or grid), then reset bottom
+        _reset = self.bottom is None or not (self.ax is None or self.ax == ax)
         self.bottom = np.zeros(len(x)) if _reset else self.bottom
         self.ax = ax
         heights = np.array(pinfo.pop('y'))
@@ -64,13 +60,13 @@ class geom_bar(geom):
         #     and only applies when x is categorical
         _left_gap = 0
         _spacing_factor = 0     # of the bin width
-        if not categorical:
-            left = np.array([x[i]-width[i]/2 for i in range(len(x))])
-        else:
+        if categorical:
             _left_gap = 0.2
             _spacing_factor = 0.105     # of the bin width
             _breaks = np.append([0], width)
             left = np.cumsum(_breaks[:-1])
+        else:
+            left = np.array([x[i]-width[i]/2 for i in range(len(x))])
         _sep = width[0] * _spacing_factor
         left = left + _left_gap + [_sep * i for i in range(len(left))]
         ax.bar(left, heights, width, bottom=self.bottom, **pinfo)

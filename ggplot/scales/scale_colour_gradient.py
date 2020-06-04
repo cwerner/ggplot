@@ -38,7 +38,7 @@ class scale_colour_gradient(scale):
         gg = deepcopy(gg)
         if self.name:
             gg.color_label = self.name
-        if not (self.limits is None):
+        if self.limits is not None:
             gg.color_limits = self.limits
         color_spectrum = []
         if self.low:

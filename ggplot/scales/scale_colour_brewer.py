@@ -46,16 +46,10 @@ class scale_colour_brewer(scale):
     def __radd__(self, gg):
         gg = deepcopy(gg)
 
-        if self.type:
-            ctype = self.type
-        else:
-            ctype = "Sequential"
+        ctype = self.type if self.type else "Sequential"
         ctype = _handle_shorthand(ctype)
 
-        if self.palette:
-            palette = self.palette
-        else:
-            palette = _number_to_palette(ctype, 1)
+        palette = self.palette if self.palette else _number_to_palette(ctype, 1)
         if isinstance(palette, int):
             palette = _number_to_palette(ctype, palette)
 

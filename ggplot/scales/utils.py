@@ -22,10 +22,7 @@ def convert_if_int(x):
         return x
 
 def convertable_to_int(x):
-    if int(x)==x:
-        return True
-    else:
-        return False
+    return int(x)==x
 
 
 def calc_axis_breaks_and_limits(minval, maxval, nlabs=None):
@@ -43,14 +40,13 @@ def calc_axis_breaks_and_limits(minval, maxval, nlabs=None):
       number of labels which should be displayed on the axis
       Default: None
     """
+    diff = maxval - minval
     if nlabs is None:
-        diff = maxval - minval
         base10 = math.log10(diff)
         power = math.floor(base10)
         base_unit = 10**power
         step = base_unit / 2
     else:
-        diff = maxval - minval
         tick_range = diff / float(nlabs)
         # make the tick range nice looking...
         power = math.ceil(math.log(tick_range, 10))
@@ -58,7 +54,7 @@ def calc_axis_breaks_and_limits(minval, maxval, nlabs=None):
 
     labs = list(drange(minval-(step/3), maxval+(step/3), step))
 
-    if all([convertable_to_int(lab) for lab in labs]):
+    if all(convertable_to_int(lab) for lab in labs):
         labs = [convert_if_int(lab) for lab in labs]
 
     return labs, minval-(step/3), maxval+(step/3)

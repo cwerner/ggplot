@@ -28,7 +28,7 @@ def assign_alphas(data, aes):
         An entry into the legend dictionary.
         Documented in `components.legend`
     """
-    legend_entry = dict()
+    legend_entry = {}
     if 'alpha' in aes:
         alpha_col = aes['alpha']
         # Check that values are in the right format

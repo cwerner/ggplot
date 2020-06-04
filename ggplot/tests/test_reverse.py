@@ -18,7 +18,7 @@ def test_scale_reverse():
                        "y": np.arange(0, 100),
                        "z": np.arange(0, 100)})
 
-    df['cat'] = np.where(df.x*2 > 50, 'blah', 'blue')
+    df['cat'] = np.where(df.x > 25, 'blah', 'blue')
     df['cat'] = np.where(df.y > 50, 'hello', df.cat)
     df['cat2'] = np.where(df.y < 15, 'one', 'two')
     df['y'] = np.sin(df.y)

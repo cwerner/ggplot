@@ -19,8 +19,7 @@ SHAPES = [
 
 def shape_gen():
     while True:
-        for shape in SHAPES:
-            yield shape
+        yield from SHAPES
 
 
 def assign_shapes(data, aes):
@@ -41,17 +40,20 @@ def assign_shapes(data, aes):
         An entry into the legend dictionary.
         Documented in `components.legend`
     """
-    legend_entry = dict()
+    legend_entry = {}
     if 'shape' in aes:
         shape_col = aes['shape']
         shape = shape_gen()
         labels, scale_type, indices = get_labels(data, shape_col, "discrete")
         # marker in matplotlib are not unicode ready in 1.3.1 :-( -> use explicit str()...
-        shape_mapping = dict((value, str(six.next(shape))) for value in labels)
+        shape_mapping = {value: str(six.next(shape)) for value in labels}
         data[':::shape_mapping:::'] = data[shape_col].apply(
             lambda x: shape_mapping[x])
 
-        legend_entry = {'column_name': shape_col,
-                  'dict': dict((v, k) for k, v in shape_mapping.items()),
-                  'scale_type': "discrete"}
+        legend_entry = {
+            'column_name': shape_col,
+            'dict': {v: k for k, v in shape_mapping.items()},
+            'scale_type': "discrete",
+        }
+
     return data, legend_entry

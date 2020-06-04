@@ -32,9 +32,7 @@ def is_string(obj):
     """
     Return True if *obj* is a string
     """
-    if isinstance(obj, six.string_types):
-        return True
-    return False
+    return isinstance(obj, six.string_types)
 
 
 def is_sequence_of_strings(obj):
@@ -48,10 +46,7 @@ def is_sequence_of_strings(obj):
         return False
     if not isinstance(obj, np.ndarray) and cbook.is_string_like(obj):
         return False
-    for o in obj:
-        if not cbook.is_string_like(o):
-            return False
-    return True
+    return all(cbook.is_string_like(o) for o in obj)
 
 
 def is_sequence_of_booleans(obj):
@@ -61,9 +56,7 @@ def is_sequence_of_booleans(obj):
     if not cbook.iterable(obj):
         return False
     _it = (isinstance(x, bool) for x in obj)
-    if all(_it):
-        return True
-    return False
+    return all(_it)
 
 
 def is_categorical(obj):
@@ -76,9 +69,7 @@ def is_categorical(obj):
     """
     if is_sequence_of_strings(obj):
         return True
-    if is_sequence_of_booleans(obj):
-        return True
-    return False
+    return bool(is_sequence_of_booleans(obj))
 
 
 def make_iterable(val):

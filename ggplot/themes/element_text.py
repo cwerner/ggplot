@@ -13,20 +13,17 @@ class element_text(object):
         if family:
             self.properties["family"] = family
         if face:
-            if face == "plain":
-                self.properties["style"] = "normal"
-            elif face == "italic":
-                self.properties["style"] = "italic"
-            elif face == "bold":
+            if face == "bold":
                 self.properties["weight"] = "bold"
             elif face == "bold.italic":
                 self.properties["style"] = "italic"
                 self.properties["weight"] = "bold"
+            elif face == "italic":
+                self.properties["style"] = "italic"
+            elif face == "plain":
+                self.properties["style"] = "normal"
         if colour or color:
-            if colour:
-                self.properties["color"] = colour
-            else:
-                self.properties["color"] = color
+            self.properties["color"] = colour if colour else color
         if size:
             self.properties["size"] = size
         if hjust is not None:

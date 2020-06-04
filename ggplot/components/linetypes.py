@@ -25,8 +25,7 @@ LINETYPES = [
 
 def line_gen():
     while True:
-        for line in LINETYPES:
-            yield line
+        yield from LINETYPES
 
 
 def assign_linetypes(data, aes):
@@ -50,17 +49,19 @@ def assign_linetypes(data, aes):
         Documented in `components.legend`
     """
 
-    legend_entry = dict()
+    legend_entry = {}
     if 'linetype' in aes:
         linetype_col = aes['linetype']
         linetype = line_gen()
         labels, scale_type, indices = get_labels(data, linetype_col, "discrete")
-        linetype_mapping = dict((value, six.next(linetype)) for value in labels)
+        linetype_mapping = {value: six.next(linetype) for value in labels}
         data[':::linetype_mapping:::'] = data[linetype_col].apply(
             lambda x: linetype_mapping[x])
 
         legend_entry = {
             'column_name': linetype_col,
-            'dict': dict((v, k) for k, v in linetype_mapping.items()),
-            'scale_type': "discrete"}
+            'dict': {v: k for k, v in linetype_mapping.items()},
+            'scale_type': "discrete",
+        }
+
     return data, legend_entry
